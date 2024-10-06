@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from './prisma.service';
+import { PrismaService } from '../prisma.service';
 import { compare, genSalt, hash } from 'bcrypt';
 
 @Injectable()
