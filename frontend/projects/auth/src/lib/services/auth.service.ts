@@ -13,19 +13,22 @@ export interface ApplicationUser {
   providedIn: 'root'
 })
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<ApplicationUser>;
-	public currentUser: Observable<ApplicationUser>;
+  
+  private currentUserSubject: BehaviorSubject<ApplicationUser | null>;
 
-  constructor(private readonly http: HttpClient) { 
-    this.currentUserSubject = new BehaviorSubject<ApplicationUser>(
-			JSON.parse(localStorage.getItem('currentUser'))
-		);
-		this.currentUser = this.currentUserSubject.asObservable();
+  public currentUser: Observable<ApplicationUser | null>;
+
+  constructor(private http: HttpClient) { 
+    const userJson = localStorage.getItem('currentUser');
+    const user = userJson ? JSON.parse(userJson) : null;
+
+    this.currentUserSubject = new BehaviorSubject<ApplicationUser | null>(user);
+    this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): ApplicationUser {
-		return this.currentUserSubject.value;
-	}
+  public get currentUserValue(): ApplicationUser | null {
+    return this.currentUserSubject.value;
+  }
 
   Login(email: string, password: string ){
     return this.http.post<any>('/auth/login', { email, password }).pipe(map(user => {
@@ -34,12 +37,11 @@ export class AuthService {
           this.currentUserSubject.next(user);       
       }
       return user;
-  }));
-}
-  
+    }));
+  }
+
   Logout(){
     localStorage.removeItem('currentUser');
-		this.currentUserSubject.next(null);
+    this.currentUserSubject.next(null);
   }
 }
-
