@@ -9,6 +9,9 @@ import { provideHttpClient } from '@angular/common/http';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideHttpClient(), 
+    jwtInterceptorProvider,
+    errorInterceptorProvider,
     provideRouter(routes), // Include your routes if any
   ],
 }).catch(err => console.error(err));

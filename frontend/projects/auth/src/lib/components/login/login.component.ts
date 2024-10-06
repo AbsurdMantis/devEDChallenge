@@ -14,7 +14,6 @@ import { CommonModule } from '@angular/common';
     RouterModule,
     CommonModule
   ],
-  providers: [AuthService]
 })
 
 export class LoginComponent implements OnInit {  
