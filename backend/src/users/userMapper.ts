@@ -1,5 +1,6 @@
 import { User } from "@prisma/client";
 import { UserDTO } from "./userDTO";
+
 type SafeUser = Omit<User, 'password_hash'>;
 
 export const userMapper = (data: SafeUser): UserDTO => {
