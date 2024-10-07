@@ -6,6 +6,8 @@ import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login', 
@@ -17,7 +19,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     RouterModule,
     CommonModule,
     MatCardModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
   ],
 })
 
@@ -52,7 +56,8 @@ export class LoginComponent implements OnInit {
             return;    
         }
         
-        this.authService.Login(this.f['username'].value, this.f['password'].value)
+        this.authService.Login(this.f['email'].value, this.f['password'].value)
+
         .pipe(first())
         .subscribe({
         next: data => {

@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
 import { PasswordValidator } from '../../services/password.validator';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { RegisterRequest } from '../../../../../../src/app/app.interfaces';
 
 @Component({
   selector: 'lib-register',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatFormFieldModule],
+  imports: [CommonModule, MatCardModule, MatFormFieldModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -34,13 +35,23 @@ export class RegisterComponent {
   ) { }
 
   register() {
+
     if (!this.registerForm.valid) {
       return;
     }
-    this.authService.RegisterUser(this.registerForm.value).pipe(
-      // If registration was successfull, then navigate to login route
-      tap(() => this.router.navigate([this || '/']);
+
+    const formValue = this.registerForm.value;
+
+    const registerData: RegisterRequest = {
+      email: formValue.email!,
+      username: formValue.username!,
+      firstname: formValue.firstname!,
+      lastname: formValue.lastname!,
+      password: formValue.password!,
+    };
+
+    this.authService.Register(registerData).pipe(
+      tap(() => this.router.navigate(['/login']))
     ).subscribe();
   }
-
 }

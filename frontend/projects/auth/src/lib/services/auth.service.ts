@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { RegisterRequest, RegisterResponse } from '../../../../../src/app/app.interfaces';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface ApplicationUser {
 	accessToken: string;
@@ -13,12 +15,11 @@ export interface ApplicationUser {
   providedIn: 'root'
 })
 export class AuthService {
-  
   private currentUserSubject: BehaviorSubject<ApplicationUser | null>;
 
   public currentUser: Observable<ApplicationUser | null>;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private snackModal: MatSnackBar) { 
     const userJson = localStorage.getItem('currentUser');
     const user = userJson ? JSON.parse(userJson) : null;
 
@@ -38,6 +39,15 @@ export class AuthService {
       }
       return user;
     }));
+  }
+
+  Register(registerRequest: RegisterRequest): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>('/api/auth/register', registerRequest).pipe(
+      tap((response: RegisterResponse) => 
+        this.snackModal.open('User added to database', 'Close', 
+        { duration: 1000, horizontalPosition: 'right', verticalPosition: 'top' })
+      )
+    );
   }
 
   Logout(){
