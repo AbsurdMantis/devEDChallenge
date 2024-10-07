@@ -1,31 +1,31 @@
-<div class="container my-3">  
-    <div class="row text-center mb-5">    
-      <div class="col-md-12 bg-light p-3">      
-        <h2>Login</h2>    
-      </div>  
-    </div>
-    <div class="row">    
-      <div class="col-md-6 offset-md-3">      
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">        
-          <div class="form-group">          
-            <label for="username">Username</label>          
-            <input type="text" class="form-control" id="username" formControlName="username" placeholder="Username" />          
-            <div *ngIf="submitted && f['username'].errors">
-              <small *ngIf="f['username'].errors['required']" class="form-text text-muted">Username is required</small>
-            </div>
+<div>
+    <a [routerLink]="['../register']">Go to Register</a>
+    <mat-card>
+      <mat-card-title>Login</mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  
+          <mat-form-field>
+            <input type="email" matInput placeholder="Email" formControlName="email">
+            <mat-error *ngIf="this.loginForm.get('email')?.touched && this.loginForm.get('email')?.hasError('required')">
+              Email is required</mat-error>
+            <mat-error *ngIf="this.loginForm.get('email')?.touched && this.loginForm.get('email')?.hasError('email')">
+              Email must be a valid Email</mat-error>
+          </mat-form-field>
+  
+          <mat-form-field>
+            <input type="password" matInput placeholder="Password" formControlName="password">
+            <mat-error
+              *ngIf="this.loginForm.get('password')?.touched && this.loginForm.get('password')?.hasError('required')">
+              Password is required</mat-error>
+          </mat-form-field>
+  
+          <div class="button">
+            <!-- Button is disabled(not clickable), if our LoginForm contains Validation Errors -->
+            <button type="submit" mat-button [disabled]="!loginForm.valid">Login</button>
           </div>
-          <div class="form-group">
-            <label for="password">Password</label>          
-            <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password" />
-            <div *ngIf="submitted && f['password'].errors"> 
-              <small *ngIf="f['password'].errors['required']" class="form-text text-muted">Password is required</small>
-            </div>
-          </div> 
-          <div *ngIf="error" class="my-3">
-            <small class="form-text text-muted">{{ error | json }}</small>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+  
         </form>
-      </div>
-    </div>
+      </mat-card-content>
+    </mat-card>
   </div>

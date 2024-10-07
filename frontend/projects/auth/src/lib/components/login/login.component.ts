@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
-@Component({ 
+@Component({
+  selector: 'app-login', 
   standalone: true,
   templateUrl: 'login.component.html', 
-  styleUrl:'login.component.css',
+  styleUrl:'login.component.scss',
   imports: [
     ReactiveFormsModule,
     RouterModule,
-    CommonModule
+    CommonModule,
+    MatCardModule,
+    MatFormFieldModule
   ],
 })
 
@@ -25,10 +30,10 @@ export class LoginComponent implements OnInit {
     constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private authService: AuthService) {}
     
     ngOnInit() {
-        this.loginForm = this.formBuilder.group({ 
-        username: ['', Validators.required],
-        password: ['', Validators.required]
-    });
+        this.loginForm = new FormGroup({
+          email: new FormControl(null, [Validators.required, Validators.email]),
+          password: new FormControl(null, [Validators.required]),
+         });
         this.authService.Logout();
         
         // get return url 
@@ -52,7 +57,7 @@ export class LoginComponent implements OnInit {
         .subscribe({
         next: data => {
             this.error = '';
-            this.router.navigate([this.returnUrl || '/']);
+            this.router.navigate([this.returnUrl || '/home']);
         },
         error: error => {
             this.error = error;
