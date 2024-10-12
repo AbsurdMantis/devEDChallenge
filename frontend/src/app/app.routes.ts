@@ -1,6 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from '../../projects/auth/src/public-api';
+import { Routes} from '@angular/router';
+import { LoginComponent, RegisterComponent } from '../../projects/auth/src/public-api';
 import { MasterComponent } from './shared/master/master.component';
 import { HomeComponent } from './shared/home/home.component';
 import { AuthGuard } from '../../projects/auth/src/lib/auth.guard';
@@ -25,7 +24,16 @@ export const routes: Routes = [
                       component: LoginComponent
                     }    
                   ]  
-      }, 
+      },
+      {
+        path: '',
+        children: [
+                    {
+                      path: 'register',
+                      component: RegisterComponent
+                    }    
+                  ]  
+      },  
       { 
         path: '**', 
         redirectTo: '' 

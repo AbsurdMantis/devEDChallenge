@@ -15,7 +15,7 @@
             <a class="nav-link" [routerLink]="['/']">Home</a>
           </li>
           <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" [routerLink]="['/crud']">User Management</a>
+            <a class="nav-link" [routerLink]="['/management']">User Management</a>
           </li>
           <li *ngIf="loggedIn" class="nav-item" routerLinkActive="active">
             <a class="nav-link" (click)="Logout()" href="">Logout</a>

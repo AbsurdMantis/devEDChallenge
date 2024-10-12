@@ -19,7 +19,6 @@ export interface RefreshToken {
 
   export interface RegisterRequest {
     email: string;
-    username: string;
     firstname: string;
     lastname: string;
     password: string;

@@ -8,23 +8,30 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RegisterRequest } from '../../../../../../src/app/app.interfaces';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'lib-register',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatFormFieldModule, ReactiveFormsModule, RouterModule],
+  imports: [ReactiveFormsModule,
+    RouterModule,
+    CommonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
 
   registerForm = new FormGroup({
-    email: new FormControl(null, [Validators.required, Validators.email]),
-    username: new FormControl(null, [Validators.required]),
-    firstname: new FormControl(null, [Validators.required]),
-    lastname: new FormControl(null, [Validators.required]),
-    password: new FormControl(null, [Validators.required]),
-    passwordConfirm: new FormControl(null, [Validators.required])
+    email: new FormControl<string | null>(null, [Validators.required, Validators.email]),
+    firstname: new FormControl<string | null>(null, [Validators.required]),
+    lastname: new FormControl<string | null>(null, [Validators.required]),
+    password: new FormControl<string | null>(null, [Validators.required]),
+    passwordConfirm: new FormControl<string | null>(null, [Validators.required])
   },
     { validators: PasswordValidator.passwordsMatching }
   )
@@ -44,7 +51,6 @@ export class RegisterComponent {
 
     const registerData: RegisterRequest = {
       email: formValue.email!,
-      username: formValue.username!,
       firstname: formValue.firstname!,
       lastname: formValue.lastname!,
       password: formValue.password!,

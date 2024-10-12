@@ -23,6 +23,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatButtonModule
   ],
+  providers: [
+    AuthService
+  ]
 })
 
 export class LoginComponent implements OnInit {  
@@ -57,7 +60,6 @@ export class LoginComponent implements OnInit {
         }
         
         this.authService.Login(this.f['email'].value, this.f['password'].value)
-
         .pipe(first())
         .subscribe({
         next: data => {
