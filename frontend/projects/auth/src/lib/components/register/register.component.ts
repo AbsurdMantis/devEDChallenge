@@ -51,8 +51,7 @@ export class RegisterComponent {
 
     const registerData: RegisterRequest = {
       email: formValue.email!,
-      firstname: formValue.firstname!,
-      lastname: formValue.lastname!,
+      name: formValue.firstname! + " " + formValue.lastname!,
       password: formValue.password!,
     };
 
